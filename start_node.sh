@@ -29,7 +29,7 @@ echo "  █"
 echo " █"
 echo " ███████ ErgoPlatform.org"
 echo
-echo " v$latest_release"
+echo "$latest_release"
 echo
 
 # I verify that a Java version exists in my computer, if it does not exist I show a message and exit.
@@ -58,7 +58,7 @@ fi
 
 # I download the node version
 url_ergo="https://github.com/ergoplatform/ergo/releases/download/$latest_release"
-jar_file="ergo-$latest_release.jar"
+jar_file="ergo-${latest_release#v}.jar"
 if [ ! -f "$HOME/$directory/$jar_file" ]; then
     curl -LJO "$url_ergo/$jar_file"
     mv "$HOME/$jar_file" "$HOME/$directory"
@@ -78,8 +78,6 @@ if [ ! -f "$HOME/$directory/ergo.conf" ]; then
     ergo_conf="node.stateType = \"digest\""
     echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
     ergo_conf="node.blocksToKeep = 1440"
-    echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
-    ergo_conf="node.extraIndex = true"
     echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
     ergo_conf="node.nipopow.nipopowBootstrap = true"
     echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
