@@ -10,8 +10,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Download the start_node.sh script
-RUN wget https://raw.githubusercontent.com/ladopixel/ergo-node-sh/main/start_node.sh
+# Copy the Ergo node script
+COPY start_node.sh .
 
 # Make the script executable
 RUN chmod +x start_node.sh
@@ -26,4 +26,4 @@ EXPOSE 9030/tcp
 EXPOSE 9053/tcp
 
 # Start the Ergo node
-CMD ["./start_node.sh"]
+CMD ["bash", "start_node.sh"]
