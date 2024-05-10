@@ -32,9 +32,18 @@ echo
 echo "$latest_release"
 echo
 
-# I verify that a Java version exists in my computer, if it does not exist I show a message and exit.
-if ! type -p java > /dev/null; then
-    echo -e "${texto_rojo} [-] Java is not installed on your system, you need to install it. ${reset}"
+# Check if Java is installed and version is at least 8
+if type -p java >/dev/null; then
+    java_version=$(java -version 2>&1 | awk -F'"' '/version/ {print $2}' | sed 's/\(.*\)\(.\_.*\)\(.\_.*\)/\1/g')
+    echo "Java version: $java_version"
+    if [[ "$java_version" =~ ^1\.[0-7].* ]]; then
+        echo "Java version $java_version is too old. Please install Java 8 or higher."
+        exit 1
+    else
+        echo "Java version $java_version meets the minimum requirement(Java 8 or higher), installation continues..."
+    fi
+else
+    echo "Java is not installed. Please install Java 8 or higher."
     exit 1
 fi
 
