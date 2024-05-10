@@ -32,9 +32,18 @@ echo
 echo "$latest_release"
 echo
 
-# I verify that a Java version exists in my computer, if it does not exist I show a message and exit.
-if ! type -p java > /dev/null; then
-    echo -e "${texto_rojo} [-] Java is not installed on your system, you need to install it. ${reset}"
+# Check if Java is installed and version is at least 8
+if type -p java >/dev/null; then
+    java_version=$(java -version 2>&1 | awk -F'"' '/version/ {print $2}' | sed 's/\(.*\)\(.\_.*\)\(.\_.*\)/\1/g')
+    echo "Java version: $java_version"
+    if [[ "$java_version" =~ ^1\.[0-7].* ]]; then
+        echo "Java version $java_version is too old. Please install Java 8 or higher."
+        exit 1
+    else
+        echo "Java version $java_version meets the minimum requirement(Java 8 or higher), installation continues..."
+    fi
+else
+    echo "Java is not installed. Please install Java 8 or higher."
     exit 1
 fi
 
@@ -73,13 +82,13 @@ if [ ! -f "$HOME/$directory/ergo.conf" ]; then
     echo "$ergo_conf" > "$HOME/$directory/ergo.conf"
     ergo_conf="directory = \${ergo.directory}/$HOME/$directory"
     echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
-    ergo_conf="networkType = \"mainnet\""
+    ergo_conf="node.extraIndex = true"
     echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
-    ergo_conf="node.stateType = \"digest\""
+    ergo_conf="node.extraCacheSize = 500"
     echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
-    ergo_conf="node.blocksToKeep = 1440"
+    ergo_conf="node.utxoBootstrap = true"
     echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
-    ergo_conf="node.nipopow.nipopowBootstrap = true"
+    ergo_conf="node.storingUtxoSnapshots = 2"
     echo "$ergo_conf" >> "$HOME/$directory/ergo.conf"
     ergo_conf="}"
     echo $ergo_conf >> "$HOME/$directory/ergo.conf"
