@@ -12,7 +12,9 @@ This repository contains a Dockerfile and scripts to set up and run an Ergo node
 git clone https://github.com/your-repo/docker-ergo-node.git
 
 
-2. Obtain an API key from the Ergo platform.
+2. Build the docker image:
+
+docker build -t ergo-node .
 
 3. Run the Docker container:
 
