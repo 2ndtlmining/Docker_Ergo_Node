@@ -11,18 +11,17 @@ This repository contains a Dockerfile and scripts to set up and run an Ergo node
 1. Clone this repository:
 git clone https://github.com/your-repo/docker-ergo-node.git
 
-2. Build the Docker image:
-docker build -t ergo-node .
+
+2. Obtain an API key from the Ergo platform.
 
 3. Run the Docker container:
-docker run -d --name ergo-node -e ERGO_DATA_DIR=/path/to/data/dir ergo-node
 
+docker run -d --name ergo-node -e API_KEY=your_api_key ergo-node
 
-Replace `/path/to/data/dir` with the desired path on your host machine where the Ergo node data will be stored.
 
 ## Docker Environment Variables
 
-- `ERGO_DATA_DIR`: The path on the host machine where the Ergo node data will be stored. This directory will be mounted as a volume inside the container.
+- ``our_api_key`: Please maintain your own API_KEY that you will use to unlock and lock your Node wallet.
 
 ## Ergo Node Configuration
 
@@ -34,6 +33,11 @@ The `ergo.conf` file is automatically generated and configured with the followin
 - `node.storingUtxoSnapshots`: The number of UTXO snapshots to store. By default, it is set to `2`.
 
 You can modify these configuration properties by editing the `start_node.sh` script and rebuilding the Docker image.
+
+## Additional Resources
+
+- [Ergo Platform Documentation](https://ergo-platform.org/docs)
+- [Docker Documentation](https://docs.docker.com/)
 
 ## License
 
